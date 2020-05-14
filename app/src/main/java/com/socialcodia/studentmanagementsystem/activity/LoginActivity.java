@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.socialcodia.studentmanagementsystem.R;
 import com.socialcodia.studentmanagementsystem.RetrofitClient;
+import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -88,37 +89,27 @@ public class LoginActivity extends AppCompatActivity {
     private void doLogin(String email, String password)
     {
         btnLogin.setEnabled(false);
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().login(email,password);
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().login(email,password);
+        call.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                btnLogin.setEnabled(true);
-                String data = null;
-                try {
-                    data = response.body().string();
-                }
-                catch (Exception e)
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse defaultResponse = response.body();
+                if (!defaultResponse.isError())
                 {
-                    Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    btnLogin.setEnabled(true);
+                    Toast.makeText(LoginActivity.this, defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
-                if (data!=null)
+                else
                 {
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        String message = jsonObject.getString("message");
-                        Toast.makeText(LoginActivity.this, ""+message, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    btnLogin.setEnabled(true);
+                    Toast.makeText(LoginActivity.this, defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
                 btnLogin.setEnabled(true);
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

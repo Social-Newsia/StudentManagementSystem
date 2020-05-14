@@ -13,11 +13,8 @@ import android.widget.Toast;
 
 import com.socialcodia.studentmanagementsystem.R;
 import com.socialcodia.studentmanagementsystem.RetrofitClient;
+import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -123,39 +120,29 @@ public class RegisterActivity extends AppCompatActivity {
     private void doRegister(String name, String email, String password)
     {
         btnRegister.setEnabled(false);
-        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().register(name,email,password);
-
-        call.enqueue(new Callback<ResponseBody>() {
+        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().register(name,email,password);
+        call.enqueue(new Callback<DefaultResponse>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                String s = null;
-                try {
-                    s = response.body().string();
-                }
-                catch (Exception e)
+            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                DefaultResponse registerResponse = response.body();
+                if ((!registerResponse.isError()))
                 {
-                    Toast.makeText(RegisterActivity.this, "Excep e" +e.getMessage(), Toast.LENGTH_SHORT).show();
+                    btnRegister.setEnabled(true);
+                    Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                if (s != null)
+                else
                 {
-                    try {
-                        JSONObject jsonObject = new JSONObject(s);
-                        String message = jsonObject.getString("message");
-                        Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    btnRegister.setEnabled(true);
+                    Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                btnRegister.setEnabled(true);
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+
                 btnRegister.setEnabled(true);
-                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void sendToLogin()

@@ -1,5 +1,7 @@
 package com.socialcodia.studentmanagementsystem;
 
+import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -10,7 +12,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("register.php")
-    Call<ResponseBody> register(
+    Call<DefaultResponse> register(
             @Field("name") String name,
             @Field("email") String email,
             @Field("password") String password
@@ -18,7 +20,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("login.php")
-    Call<ResponseBody> login(
+    Call<DefaultResponse> login(
             @Field("email") String email,
             @Field("password") String password
     );

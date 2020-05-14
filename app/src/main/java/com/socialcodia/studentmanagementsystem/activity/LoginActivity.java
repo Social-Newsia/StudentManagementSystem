@@ -1,4 +1,4 @@
-package com.socialcodia.studentmanagementsystem;
+package com.socialcodia.studentmanagementsystem.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.socialcodia.studentmanagementsystem.R;
+import com.socialcodia.studentmanagementsystem.RetrofitClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.socialcodia.studentmanagementsystem;
+package com.socialcodia.studentmanagementsystem.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.socialcodia.studentmanagementsystem.R;
 
 public class MainActivity extends AppCompatActivity {
 

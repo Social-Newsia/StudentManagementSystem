@@ -1,10 +1,9 @@
-package com.socialcodia.studentmanagementsystem;
+package com.socialcodia.studentmanagementsystem.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonParser;
+import com.socialcodia.studentmanagementsystem.R;
+import com.socialcodia.studentmanagementsystem.RetrofitClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;

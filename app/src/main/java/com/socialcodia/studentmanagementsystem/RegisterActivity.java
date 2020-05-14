@@ -12,6 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -123,13 +128,23 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                String s = null;
                 try {
-                    String message = response.toString();
-                    Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+                    s = response.body().string();
                 }
                 catch (Exception e)
                 {
-                    Toast.makeText(RegisterActivity.this, "Excep e" +e, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Excep e" +e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                if (s != null)
+                {
+                    try {
+                        JSONObject jsonObject = new JSONObject(s);
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 btnRegister.setEnabled(true);
             }

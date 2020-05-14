@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,22 +84,37 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doLogin(String email, String password)
     {
+        btnLogin.setEnabled(false);
         Call<ResponseBody> call = RetrofitClient.getInstance().getApi().login(email,password);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                btnLogin.setEnabled(true);
+                String data = null;
                 try {
-                    String data = response.toString();
-                    Toast.makeText(LoginActivity.this, data, Toast.LENGTH_LONG).show();
+                    data = response.body().string();
                 }
                 catch (Exception e)
                 {
                     Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
+                if (data!=null)
+                {
+                    try {
+                        JSONObject jsonObject = new JSONObject(data);
+                        String message = jsonObject.getString("message");
+                        Toast.makeText(LoginActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                btnLogin.setEnabled(true);
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

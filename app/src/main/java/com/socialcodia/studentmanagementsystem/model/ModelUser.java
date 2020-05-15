@@ -1,14 +1,14 @@
 package com.socialcodia.studentmanagementsystem.model;
 
-public class UserModel {
+public class ModelUser {
     public int id;
     public String name, email;
 
 
-    public UserModel() {
+    public ModelUser() {
     }
 
-    public UserModel(int id, String name, String email) {
+    public ModelUser(int id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;

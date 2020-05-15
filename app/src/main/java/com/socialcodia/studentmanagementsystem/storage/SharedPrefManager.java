@@ -2,9 +2,8 @@ package com.socialcodia.studentmanagementsystem.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
 
-import com.socialcodia.studentmanagementsystem.model.UserModel;
+import com.socialcodia.studentmanagementsystem.model.ModelUser;
 
 public class SharedPrefManager {
 
@@ -29,21 +28,21 @@ public class SharedPrefManager {
     }
 
 
-    public void saveUser(UserModel userModel)
+    public void saveUser(ModelUser modelUser)
     {
         sharedPreferences =  context.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(Constants.USER_ID,userModel.getId());
-        editor.putString(Constants.USER_NAME,userModel.getName());
-        editor.putString(Constants.USER_EMAIL,userModel.getEmail());
+        editor.putInt(Constants.USER_ID, modelUser.getId());
+        editor.putString(Constants.USER_NAME, modelUser.getName());
+        editor.putString(Constants.USER_EMAIL, modelUser.getEmail());
         editor.apply();
         editor.commit();
     }
 
-    public UserModel getUser()
+    public ModelUser getUser()
     {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
-        return new UserModel(
+        return new ModelUser(
                 sharedPreferences.getInt(Constants.USER_ID,-1),
                 sharedPreferences.getString(Constants.USER_NAME,null),
                 sharedPreferences.getString(Constants.USER_EMAIL,null)

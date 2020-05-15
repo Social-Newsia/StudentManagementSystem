@@ -7,23 +7,14 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.socialcodia.studentmanagementsystem.R;
 import com.socialcodia.studentmanagementsystem.fragment.HomeFragment;
 import com.socialcodia.studentmanagementsystem.fragment.SettingsFragment;
 import com.socialcodia.studentmanagementsystem.fragment.UsersFragment;
-import com.socialcodia.studentmanagementsystem.model.UserModel;
 import com.socialcodia.studentmanagementsystem.storage.SharedPrefManager;
-
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 

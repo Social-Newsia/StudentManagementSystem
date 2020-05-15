@@ -3,12 +3,12 @@ package com.socialcodia.studentmanagementsystem.model;
 public class LoginResponse {
     boolean error ;
     String message;
-    UserModel user;
+    ModelUser user;
 
     public LoginResponse() {
     }
 
-    public LoginResponse(boolean error, String message, UserModel user) {
+    public LoginResponse(boolean error, String message, ModelUser user) {
         this.error = error;
         this.message = message;
         this.user = user;
@@ -30,11 +30,11 @@ public class LoginResponse {
         this.message = message;
     }
 
-    public UserModel getUser() {
+    public ModelUser getUser() {
         return user;
     }
 
-    public void setUser(UserModel user) {
+    public void setUser(ModelUser user) {
         this.user = user;
     }
 }

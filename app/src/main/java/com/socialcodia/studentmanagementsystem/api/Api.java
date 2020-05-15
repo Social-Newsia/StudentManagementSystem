@@ -2,11 +2,12 @@ package com.socialcodia.studentmanagementsystem.api;
 
 import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
 import com.socialcodia.studentmanagementsystem.model.LoginResponse;
+import com.socialcodia.studentmanagementsystem.model.UsersResponse;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface Api {
@@ -25,4 +26,7 @@ public interface Api {
             @Field("email") String email,
             @Field("password") String password
     );
+
+    @GET("users.php")
+    Call<UsersResponse> getUser();
 }

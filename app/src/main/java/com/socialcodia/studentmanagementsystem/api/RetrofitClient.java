@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static final String BASE_URL = "http://socialcodia.hopto.org:8080/sms/api/";
+    private static final String BASE_URL = "http://api.socialcodia.ml/public/";
     private static RetrofitClient mInstance;
     private  Retrofit retrofit;
 

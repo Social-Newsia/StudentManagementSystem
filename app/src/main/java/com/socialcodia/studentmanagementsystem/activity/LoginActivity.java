@@ -3,7 +3,6 @@ package com.socialcodia.studentmanagementsystem.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -14,15 +13,13 @@ import android.widget.Toast;
 
 import com.socialcodia.studentmanagementsystem.R;
 import com.socialcodia.studentmanagementsystem.api.RetrofitClient;
-import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
 import com.socialcodia.studentmanagementsystem.model.LoginResponse;
-import com.socialcodia.studentmanagementsystem.model.UserModel;
+import com.socialcodia.studentmanagementsystem.model.ModelUser;
 import com.socialcodia.studentmanagementsystem.storage.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -103,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 LoginResponse loginResponse = response.body();
                 if (!loginResponse.isError())
                 {
-                    UserModel user = loginResponse.getUser();
+                    ModelUser user = loginResponse.getUser();
                     SharedPrefManager.getInstance(getApplicationContext()).saveUser(user);
                     sendToMain();
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();

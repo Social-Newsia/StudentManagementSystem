@@ -2,6 +2,7 @@ package com.socialcodia.studentmanagementsystem.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.socialcodia.studentmanagementsystem.model.UserModel;
 
@@ -36,16 +37,26 @@ public class SharedPrefManager {
         editor.putString(Constants.USER_NAME,userModel.getName());
         editor.putString(Constants.USER_EMAIL,userModel.getEmail());
         editor.apply();
+        editor.commit();
     }
 
     public UserModel getUser()
     {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
         return new UserModel(
-          sharedPreferences.getInt(Constants.USER_ID,1),
-          sharedPreferences.getString(Constants.USER_NAME,"Social Codia"),
-          sharedPreferences.getString(Constants.USER_EMAIL,"")
+                sharedPreferences.getInt(Constants.USER_ID,-1),
+                sharedPreferences.getString(Constants.USER_NAME,null),
+                sharedPreferences.getString(Constants.USER_EMAIL,null)
         );
     }
 
+    public boolean isLoggedIn()
+    {
+        SharedPreferences sharedPreferences= context.getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
+        if (sharedPreferences.getInt(Constants.USER_ID,-1)!=-1)
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -2,6 +2,7 @@ package com.socialcodia.studentmanagementsystem.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -25,14 +26,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    username = findViewById(R.id.username);
+        username = findViewById(R.id.username);
 
 
-    UserModel user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+        UserModel user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
 
-    username.setText("Welcome Back" +user.getName());
-        Toast.makeText(this, "Toast"+user.getEmail(), Toast.LENGTH_SHORT).show();
+        username.setText("Welcome Back " + user.getName());
 
+        if (!SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn())
+        {
+            sendToLogin();
+        }
+
+
+    }
+
+
+    private void sendToLogin()
+    {
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 }

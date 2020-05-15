@@ -1,15 +1,24 @@
 package com.socialcodia.studentmanagementsystem.model;
 
 public class UserModel {
+    public int id;
     public String name, email;
-    int id;
 
-    public UserModel(int anInt, String string, String sharedPreferencesString) {
+
+    public UserModel() {
     }
 
-    public UserModel(String name, String email, int id) {
+    public UserModel(int id, String name, String email) {
+        this.id = id;
         this.name = name;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -27,13 +36,5 @@ public class UserModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

@@ -3,6 +3,7 @@ package com.socialcodia.studentmanagementsystem.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -41,9 +42,6 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         sharedPrefManager = new SharedPrefManager(getApplicationContext());
 
-        UserModel user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
-        Toast.makeText(this, "Saved User Is"+user.getEmail(), Toast.LENGTH_LONG).show();
-
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +55,11 @@ public class LoginActivity extends AppCompatActivity {
                 validateData();
             }
         });
+
+        if (sharedPrefManager.isLoggedIn())
+        {
+           sendToMain();
+        }
 
     }
 
@@ -98,12 +101,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
-                assert loginResponse != null;
                 if (!loginResponse.isError())
                 {
                     UserModel user = loginResponse.getUser();
                     SharedPrefManager.getInstance(getApplicationContext()).saveUser(user);
-                    Toast.makeText(LoginActivity.this, "user "+user, Toast.LENGTH_LONG).show();
                     sendToMain();
                     Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                 }

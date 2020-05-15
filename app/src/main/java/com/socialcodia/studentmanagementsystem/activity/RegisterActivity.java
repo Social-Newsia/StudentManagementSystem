@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.socialcodia.studentmanagementsystem.R;
-import com.socialcodia.studentmanagementsystem.RetrofitClient;
+import com.socialcodia.studentmanagementsystem.api.RetrofitClient;
 import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
 
 import retrofit2.Call;

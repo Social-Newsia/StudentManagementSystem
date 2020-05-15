@@ -12,22 +12,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.socialcodia.studentmanagementsystem.R;
-import com.socialcodia.studentmanagementsystem.RetrofitClient;
+import com.socialcodia.studentmanagementsystem.api.RetrofitClient;
 import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
+import com.socialcodia.studentmanagementsystem.model.LoginResponse;
+import com.socialcodia.studentmanagementsystem.model.UserModel;
+import com.socialcodia.studentmanagementsystem.storage.SharedPrefManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
     private TextView tvRegister;
     private Button btnLogin;
+    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,11 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.inputPassword);
         tvRegister = findViewById(R.id.tvRegister);
         btnLogin = findViewById(R.id.btnLogin);
-        
+        sharedPrefManager = new SharedPrefManager(getApplicationContext());
+
+        UserModel user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
+        Toast.makeText(this, "Saved User Is"+user.getEmail(), Toast.LENGTH_LONG).show();
+
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,28 +93,29 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doLogin(String email, String password)
     {
-        btnLogin.setEnabled(false);
-        Call<DefaultResponse> call = RetrofitClient.getInstance().getApi().login(email,password);
-        call.enqueue(new Callback<DefaultResponse>() {
+        Call<LoginResponse> call = RetrofitClient.getInstance().getApi().login(email,password);
+        call.enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                DefaultResponse defaultResponse = response.body();
-                if (!defaultResponse.isError())
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                LoginResponse loginResponse = response.body();
+                assert loginResponse != null;
+                if (!loginResponse.isError())
                 {
-                    btnLogin.setEnabled(true);
-                    Toast.makeText(LoginActivity.this, defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    UserModel user = loginResponse.getUser();
+                    SharedPrefManager.getInstance(getApplicationContext()).saveUser(user);
+                    Toast.makeText(LoginActivity.this, "user "+user, Toast.LENGTH_LONG).show();
+                    sendToMain();
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    btnLogin.setEnabled(true);
-                    Toast.makeText(LoginActivity.this, defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<DefaultResponse> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
 
-                btnLogin.setEnabled(true);
             }
         });
     }
@@ -120,5 +126,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void sendToMain()
+    {
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 
 }

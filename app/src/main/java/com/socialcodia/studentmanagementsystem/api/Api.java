@@ -1,6 +1,7 @@
-package com.socialcodia.studentmanagementsystem;
+package com.socialcodia.studentmanagementsystem.api;
 
 import com.socialcodia.studentmanagementsystem.model.DefaultResponse;
+import com.socialcodia.studentmanagementsystem.model.LoginResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public interface Api {
 
     @FormUrlEncoded
     @POST("login.php")
-    Call<DefaultResponse> login(
+    Call<LoginResponse> login(
             @Field("email") String email,
             @Field("password") String password
     );

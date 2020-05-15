@@ -3,6 +3,7 @@ package com.socialcodia.studentmanagementsystem.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.socialcodia.studentmanagementsystem.R;
+import com.socialcodia.studentmanagementsystem.fragment.HomeFragment;
+import com.socialcodia.studentmanagementsystem.fragment.SettingsFragment;
+import com.socialcodia.studentmanagementsystem.fragment.UsersFragment;
 import com.socialcodia.studentmanagementsystem.model.UserModel;
 import com.socialcodia.studentmanagementsystem.storage.SharedPrefManager;
 
@@ -23,7 +27,6 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView username;
     SharedPrefManager sharedPrefManager;
     BottomNavigationView navigationView;
     ActionBar actionBar;
@@ -32,14 +35,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        username = findViewById(R.id.username);
         navigationView = findViewById(R.id.bottomNavigation);
 
         actionBar = getSupportActionBar();
 
-        UserModel user = SharedPrefManager.getInstance(getApplicationContext()).getUser();
 
-        username.setText("Welcome Back " + user.getName());
 
         if (!SharedPrefManager.getInstance(getApplicationContext()).isLoggedIn())
         {
@@ -50,18 +50,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
+                Fragment fragment = new HomeFragment();
                 switch (id)
                 {
                     case R.id.miHome:
                         actionBar.setTitle("Home");
+                        fragment = new HomeFragment();
                         break;
                     case R.id.miUsers:
                         actionBar.setTitle("Users");
+                        fragment = new UsersFragment();
                         break;
                     case R.id.miSettings:
                         actionBar.setTitle("Settings");
+                        fragment = new SettingsFragment();
                         break;
                 }
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer,fragment).commit();
                 return true;
             }
         });

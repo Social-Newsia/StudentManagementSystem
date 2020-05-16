@@ -27,7 +27,7 @@ import retrofit2.Response;
 public class UsersFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    List<ModelUser> modelUserList;
+    private List<ModelUser> modelUserList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,16 +38,22 @@ public class UsersFragment extends Fragment {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        modelUserList = new ArrayList<>();
-        Call<UsersResponse> call = RetrofitClient.getInstance().getApi().getUser();
+        Call<UsersResponse> call = RetrofitClient.getInstance().getApi().getUsers();
         call.enqueue(new Callback<UsersResponse>() {
             @Override
             public void onResponse(Call<UsersResponse> call, Response<UsersResponse> response) {
-                Toast.makeText(getContext(), "responsssssssssssssssssssssss", Toast.LENGTH_SHORT).show();
-                modelUserList = response.body().getUser();
-                Toast.makeText(getContext(), "model user list "+modelUserList, Toast.LENGTH_SHORT).show();
-                AdapterUser adapterUser = new AdapterUser(getContext(),modelUserList);
-                recyclerView.setAdapter(adapterUser);
+                UsersResponse usersResponse = response.body();
+                if (usersResponse.isError())
+                {
+                    Toast.makeText(getContext(), "user response is error", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    modelUserList = usersResponse.getUsers();
+                    AdapterUser adapterUser = new AdapterUser(getContext(),modelUserList);
+                    recyclerView.setAdapter(adapterUser);
+                }
+//                AdapterUser adapterUser = new AdapterUser(getContext(),modelUserList);
+//                recyclerView.setAdapter(adapterUser);
 
             }
 

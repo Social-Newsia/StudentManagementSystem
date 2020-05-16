@@ -4,26 +4,18 @@ import java.util.List;
 
 public class UsersResponse {
     private boolean error;
-    private List<ModelUser> user;
+    private List<ModelUser> users;
 
-    public UsersResponse(boolean error, List<ModelUser> user) {
+    public UsersResponse(boolean error, List<ModelUser> users) {
         this.error = error;
-        this.user = user;
+        this.users = users;
     }
 
     public boolean isError() {
         return error;
     }
 
-    public void setError(boolean error) {
-        this.error = error;
-    }
-
-    public List<ModelUser> getUser() {
-        return user;
-    }
-
-    public void setUser(List<ModelUser> user) {
-        this.user = user;
+    public List<ModelUser> getUsers() {
+        return users;
     }
 }

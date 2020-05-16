@@ -2,8 +2,8 @@ package com.socialcodia.studentmanagementsystem.model;
 
 public class DefaultResponse {
 
-    String message;
-    boolean error;
+    private String message;
+    private boolean error;
 
     public DefaultResponse(String message, boolean error) {
         this.message = message;

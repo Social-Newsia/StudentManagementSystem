@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 public interface Api {
 
     @FormUrlEncoded
-    @POST("register.php")
+    @POST("register")
     Call<DefaultResponse> register(
             @Field("name") String name,
             @Field("email") String email,
@@ -21,12 +21,12 @@ public interface Api {
     );
 
     @FormUrlEncoded
-    @POST("login.php")
+    @POST("login")
     Call<LoginResponse> login(
             @Field("email") String email,
             @Field("password") String password
     );
 
-    @GET("users.php")
-    Call<UsersResponse> getUser();
+    @GET("users")
+    Call<UsersResponse> getUsers();
 }

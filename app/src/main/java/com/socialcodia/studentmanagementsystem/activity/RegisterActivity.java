@@ -124,23 +124,23 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                DefaultResponse registerResponse = response.body();
-                if ((!registerResponse.isError()))
+                DefaultResponse defaultResponse = response.body();
+                if (defaultResponse.isError())
                 {
                     btnRegister.setEnabled(true);
-                    Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, ""+defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     btnRegister.setEnabled(true);
-                    Toast.makeText(RegisterActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, ""+defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
-
                 btnRegister.setEnabled(true);
+                Toast.makeText(RegisterActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -25,6 +25,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText inputName, inputEmail, inputPassword, inputConfirmPassword;
     private TextView tvLogin;
     private Button btnRegister;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
                 {
                     btnRegister.setEnabled(true);
                     Toast.makeText(RegisterActivity.this, ""+defaultResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    sendToLoginWithEmailAndPassword(email,password);
                 }
             }
 
@@ -148,6 +150,15 @@ public class RegisterActivity extends AppCompatActivity {
     private void sendToLogin()
     {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void sendToLoginWithEmailAndPassword(String email, String password)
+    {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.putExtra("intentEmail",email);
+        intent.putExtra("intentPassword",password);
         startActivity(intent);
         finish();
     }

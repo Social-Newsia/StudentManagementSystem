@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvRegister;
     private Button btnLogin;
     SharedPrefManager sharedPrefManager;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,13 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.tvRegister);
         btnLogin = findViewById(R.id.btnLogin);
         sharedPrefManager = new SharedPrefManager(getApplicationContext());
+
+        intent = getIntent();
+        if (!intent.getStringExtra("intentEmail").isEmpty() && !intent.getStringExtra("intentPassword").isEmpty())
+        {
+            inputEmail.setText(intent.getStringExtra("intentEmail"));
+            inputPassword.setText(intent.getStringExtra("intentPassword"));
+        }
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override

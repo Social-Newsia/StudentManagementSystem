@@ -40,12 +40,18 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         sharedPrefManager = new SharedPrefManager(getApplicationContext());
 
-        intent = getIntent();
-        if (!intent.getStringExtra("intentEmail").isEmpty() && !intent.getStringExtra("intentPassword").isEmpty())
+        Intent intent = getIntent();
+        if (intent.getStringExtra("intentEmail")!=null)
         {
-            inputEmail.setText(intent.getStringExtra("intentEmail"));
-            inputPassword.setText(intent.getStringExtra("intentPassword"));
+            String intentEmail = intent.getStringExtra("intentEmail");
+            inputEmail.setText(intentEmail);
         }
+        if (intent.getStringExtra("intentPassword")!=null)
+        {
+            String intentPassword = intent.getStringExtra("intentPassword");
+            inputPassword.setText(intentPassword);
+        }
+
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override

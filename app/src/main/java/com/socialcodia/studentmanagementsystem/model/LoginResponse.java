@@ -1,9 +1,9 @@
 package com.socialcodia.studentmanagementsystem.model;
 
 public class LoginResponse {
-    boolean error ;
-    String message;
-    ModelUser user;
+    private boolean error ;
+    private String message;
+    private ModelUser user;
 
     public LoginResponse() {
     }

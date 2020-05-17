@@ -107,27 +107,39 @@ public class LoginActivity extends AppCompatActivity {
 
     private void doLogin(String email, String password)
     {
+        btnLogin.setEnabled(false);
         Call<LoginResponse> call = RetrofitClient.getInstance().getApi().login(email,password);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 LoginResponse loginResponse = response.body();
-                if (!loginResponse.isError())
+                if (loginResponse!=null)
                 {
-                    ModelUser user = loginResponse.getUser();
-                    SharedPrefManager.getInstance(getApplicationContext()).saveUser(user);
-                    sendToMain();
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    if (!loginResponse.isError())
+                    {
+                        btnLogin.setEnabled(true);
+                        ModelUser user = loginResponse.getUser();
+                        SharedPrefManager.getInstance(getApplicationContext()).saveUser(user);
+                        sendToMain();
+                        Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        btnLogin.setEnabled(true);
+                        Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                 {
-                    Toast.makeText(LoginActivity.this, loginResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    btnLogin.setEnabled(true);
+                    Toast.makeText(LoginActivity.this, "LOGIN Response Null", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                btnLogin.setEnabled(true);
+                Toast.makeText(LoginActivity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
